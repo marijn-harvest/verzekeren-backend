@@ -3,11 +3,15 @@ services:
   verzekeren-backend:
     image: verzekeren-backend:latest
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://verzekeren-postgres:5432/verzekeren
-      - SPRING_DATASOURCE_USERNAME=verzekeren
-      - SPRING_DATASOURCE_PASSWORD=verzekeren
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://verzekeren-postgres:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_JPA_GENERATE_DDL=true
     ports:
       - "8000:8000"
+    depends_on:
+      - "verzekeren-postgres"
+    command: bash -c "sleep 10;"
     networks:
       - verzekeren
 
