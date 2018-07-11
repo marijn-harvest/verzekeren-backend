@@ -1,7 +1,7 @@
 version: "3"
 services:
   verzekeren-backend:
-    image: verzekeren-backend:latest
+    image: quay.io/marijn_harvest/verzekeren_backend:latest
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://verzekeren-postgres:5432/postgres
       - SPRING_DATASOURCE_USERNAME=postgres
@@ -23,7 +23,7 @@ services:
       - verzekeren
       
   verzekeren-frontend:
-    image: verzekeren-frontend:latest
+    image: quay.io/marijn_harvest/verzekeren_frontend:latest
     ports:
       - "8080:80"
     networks:
