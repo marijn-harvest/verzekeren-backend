@@ -20,5 +20,3 @@ services:
 
 networks:
   verzekeren:
-    external:
-      name: verzekeren
