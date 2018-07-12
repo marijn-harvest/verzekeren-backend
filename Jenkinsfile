@@ -1,8 +1,7 @@
 pipeline {
     agent any
     tools { 
-        maven 'Maven 3.5.4' 
-        jdk 'jdk8' 
+        maven 'maven'
     }
     stages {
         stage('Build') {
@@ -26,8 +25,10 @@ pipeline {
             }
             steps {
                 echo 'Deploying....'
-                def dockerImage = docker.build("quay.io/marijn_harvest/verzekeren_backend")
-                dockerImage.push('latest')
+                script {
+                    def dockerImage = docker.build("quay.io/marijn_harvest/verzekeren_backend")
+                    dockerImage.push('latest')
+                }
             }
         }
     }
