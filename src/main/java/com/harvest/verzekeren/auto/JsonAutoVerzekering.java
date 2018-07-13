@@ -1,4 +1,4 @@
-package com.harvest.verzekeren;
+package com.harvest.verzekeren.auto;
 
 import lombok.Data;
 

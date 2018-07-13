@@ -1,4 +1,4 @@
-package com.harvest.verzekeren;
+package com.harvest.verzekeren.auto;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

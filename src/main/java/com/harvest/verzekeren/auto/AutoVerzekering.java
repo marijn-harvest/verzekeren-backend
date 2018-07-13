@@ -1,4 +1,4 @@
-package com.harvest.verzekeren;
+package com.harvest.verzekeren.auto;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
