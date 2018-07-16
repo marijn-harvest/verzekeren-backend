@@ -1,5 +1,7 @@
 package com.harvest.verzekeren.auto;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -7,18 +9,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AutoVerzekeringController
 {
+	@Autowired
 	private AutoVerzekeringRepository repository;
 
-	public AutoVerzekeringController(AutoVerzekeringRepository repository)
-	{
-		this.repository = repository;
-	}
+	@Autowired
+	private ModelMapper modelMapper;
 
 	@PostMapping("/auto-verzekering")
 	public void createAutoVerzekering(@RequestBody JsonAutoVerzekering jsonAutoVerzekering)
 	{
-		AutoVerzekering autoVerzekering = new AutoVerzekering(jsonAutoVerzekering.getVoornaam(), jsonAutoVerzekering.getAchternaam(),
-			jsonAutoVerzekering.getType());
+		AutoVerzekering autoVerzekering = modelMapper.map(jsonAutoVerzekering, AutoVerzekering.class);
 		repository.save(autoVerzekering);
 	}
 }
