@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.NonNull;
 
 @Entity
 @Table(name = "users")
@@ -18,7 +19,7 @@ public class User
 	private Long id;
 
 	@Column(nullable = false, unique = true)
-	private String username;
+	private @NonNull String username;
 
-	private String password;
+	private @NonNull String password;
 }
