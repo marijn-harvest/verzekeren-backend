@@ -1,8 +1,11 @@
 package com.harvest.verzekeren.auto;
 
+import java.util.Optional;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +22,7 @@ public class AutoVerzekeringController
 	private ModelMapper modelMapper;
 
 	@PostMapping("/auto-verzekering")
-	public void createAutoVerzekering(@RequestBody JsonAutoVerzekering jsonAutoVerzekering, Authentication authentication)
+	public void saveAutoVerzekering(@RequestBody JsonAutoVerzekering jsonAutoVerzekering, Authentication authentication)
 	{
 		MyUserPrincipal principal = (MyUserPrincipal) authentication.getPrincipal();
 
@@ -27,5 +30,14 @@ public class AutoVerzekeringController
 		autoVerzekering.setUserId(principal.getId());
 
 		autoVerzekeringRepository.save(autoVerzekering);
+	}
+
+	@GetMapping("/auto-verzekering")
+	public JsonAutoVerzekering getMyAutoVerzekering(Authentication authentication)
+	{
+		MyUserPrincipal principal = (MyUserPrincipal) authentication.getPrincipal();
+		Optional<AutoVerzekering> autoVerzekering = autoVerzekeringRepository.findById(principal.getId());
+
+		return autoVerzekering.isPresent() ? modelMapper.map(autoVerzekering.get(), JsonAutoVerzekering.class) : null;
 	}
 }
