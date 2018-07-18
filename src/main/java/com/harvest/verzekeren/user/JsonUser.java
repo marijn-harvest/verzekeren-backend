@@ -8,4 +8,8 @@ public class JsonUser
 	private String username;
 
 	private String password;
+
+	private String voornaam;
+
+	private String achternaam;
 }
