@@ -24,7 +24,7 @@ public class GeneralConfig
 	{
 		ModelMapper modelMapper = new ModelMapper();
 
-		Converter<String, String> toEncoded = ctx -> passwordEncoder().encode(ctx.getSource());
+		Converter<String, String> toEncoded = ctx -> ctx.getSource() != null ? passwordEncoder().encode(ctx.getSource()) : null;
 		modelMapper.createTypeMap(JsonUser.class, User.class)
 			.addMappings(mapper -> mapper.using(toEncoded).map(JsonUser::getPassword, User::setPassword));
 

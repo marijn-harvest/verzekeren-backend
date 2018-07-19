@@ -27,11 +27,11 @@ public class User
 	private @NonNull String username;
 
 	@Column(nullable = false)
-	private @NonNull String password;
+	private String password;
 
-	private @NonNull String voornaam;
+	private String voornaam;
 
-	private @NonNull String achternaam;
+	private String achternaam;
 
 	@OneToOne(mappedBy = "user")
 	private AutoVerzekering autoVerzekering;
