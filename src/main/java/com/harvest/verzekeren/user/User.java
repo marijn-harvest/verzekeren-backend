@@ -16,7 +16,6 @@ import lombok.NonNull;
 @Entity
 @Table(name = "users")
 @Data
-@NoArgsConstructor
 public class User
 {
 	@Id
@@ -35,9 +34,4 @@ public class User
 
 	@OneToOne(mappedBy = "user")
 	private AutoVerzekering autoVerzekering;
-
-	public User(Long id)
-	{
-		this.id = id;
-	}
 }
