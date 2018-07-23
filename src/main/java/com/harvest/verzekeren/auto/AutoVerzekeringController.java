@@ -15,11 +15,16 @@ import com.harvest.verzekeren.user.MyUserPrincipal;
 @RestController
 public class AutoVerzekeringController
 {
-	@Autowired
 	private AutoVerzekeringRepository autoVerzekeringRepository;
 
-	@Autowired
 	private ModelMapper modelMapper;
+
+	@Autowired
+	public AutoVerzekeringController(AutoVerzekeringRepository autoVerzekeringRepository, ModelMapper modelMapper)
+	{
+		this.autoVerzekeringRepository = autoVerzekeringRepository;
+		this.modelMapper = modelMapper;
+	}
 
 	@PostMapping("/auto-verzekering")
 	public void saveAutoVerzekering(@RequestBody JsonAutoVerzekering jsonAutoVerzekering, Authentication authentication)
@@ -36,8 +41,8 @@ public class AutoVerzekeringController
 	public JsonAutoVerzekering getMyAutoVerzekering(Authentication authentication)
 	{
 		MyUserPrincipal principal = (MyUserPrincipal) authentication.getPrincipal();
-		Optional<AutoVerzekering> autoVerzekering = autoVerzekeringRepository.findById(principal.getId());
+		Optional<AutoVerzekering> autoVerzekeringOptional = autoVerzekeringRepository.findById(principal.getId());
 
-		return autoVerzekering.isPresent() ? modelMapper.map(autoVerzekering.get(), JsonAutoVerzekering.class) : null;
+		return autoVerzekeringOptional.map(autoVerzekering -> modelMapper.map(autoVerzekering, JsonAutoVerzekering.class)).orElse(null);
 	}
 }

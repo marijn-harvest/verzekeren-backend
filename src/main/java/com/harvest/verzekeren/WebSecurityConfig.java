@@ -18,11 +18,16 @@ import com.harvest.verzekeren.user.MyUserDetailsService;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 {
-	@Autowired
 	private MyUserDetailsService userDetailsService;
 
-	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
+
+	@Autowired
+    public WebSecurityConfig(MyUserDetailsService userDetailsService, BCryptPasswordEncoder passwordEncoder)
+    {
+        this.userDetailsService = userDetailsService;
+        this.passwordEncoder = passwordEncoder;
+    }
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception
@@ -45,7 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 			@Override
 			public void addCorsMappings(CorsRegistry registry)
 			{
-				registry.addMapping("/**").allowedMethods("*");
+				registry.addMapping("/**").allowedMethods("*").allowCredentials(true);
 			}
 		};
 	}

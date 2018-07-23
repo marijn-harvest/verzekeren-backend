@@ -37,9 +37,9 @@ public class UserController
 	public JsonUser getUser(Authentication authentication)
 	{
 		MyUserPrincipal principal = (MyUserPrincipal) authentication.getPrincipal();
-		Optional<User> user = userRepository.findById(principal.getId());
+		Optional<User> userOptional = userRepository.findById(principal.getId());
 
-		return user.isPresent() ? modelMapper.map(user.get(), JsonUser.class) : null;
+		return userOptional.map(user -> modelMapper.map(user, JsonUser.class)).orElse(null);
 	}
 
 	@PostMapping("/user")
