@@ -16,11 +16,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController
 {
-	@Autowired
 	private UserRepository userRepository;
 
-	@Autowired
 	private ModelMapper modelMapper;
+
+	@Autowired
+	public UserController(UserRepository userRepository, ModelMapper modelMapper)
+	{
+		this.userRepository = userRepository;
+		this.modelMapper = modelMapper;
+	}
 
 	@GetMapping("/principal")
 	public Principal getPrincipal(Principal principal)
