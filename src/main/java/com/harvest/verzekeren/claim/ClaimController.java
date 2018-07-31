@@ -1,13 +1,11 @@
 package com.harvest.verzekeren.claim;
 
 import com.harvest.verzekeren.user.MyUserPrincipal;
+import com.harvest.verzekeren.user.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,12 +15,15 @@ public class ClaimController
 {
     private ClaimRepository claimRepository;
 
+    private UserRepository userRepository;
+
     private ModelMapper modelMapper;
 
     @Autowired
-    public ClaimController(ClaimRepository claimRepository, ModelMapper modelMapper)
+    public ClaimController(ClaimRepository claimRepository, UserRepository userRepository, ModelMapper modelMapper)
     {
         this.claimRepository = claimRepository;
+        this.userRepository = userRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -40,5 +41,17 @@ public class ClaimController
     public void deleteClaim(@PathVariable long id)
     {
         claimRepository.deleteById(id);
+    }
+
+    @PostMapping("/claim")
+    public JsonClaim addClaim(Authentication authentication, @RequestBody JsonClaim jsonClaim)
+    {
+        MyUserPrincipal principal = (MyUserPrincipal) authentication.getPrincipal();
+
+        Claim claim = modelMapper.map(jsonClaim, Claim.class);
+        claim.setUser(userRepository.getOne(principal.getId()));
+
+        claim = claimRepository.save(claim);
+        return modelMapper.map(claim, JsonClaim.class);
     }
 }

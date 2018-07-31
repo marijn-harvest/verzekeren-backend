@@ -1,10 +1,12 @@
 package com.harvest.verzekeren.claim;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class JsonClaim
+class JsonClaim
 {
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
 
     private String kenteken;
